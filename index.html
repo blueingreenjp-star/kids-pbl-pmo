@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>The Marmite Re-Branding & Micro-Business Project | Kids PBL Workspace</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    :root {
+      --background: #FFFDF7;
+      --foreground: #1E293B;
+    }
+    html {
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background-color: var(--background);
+      color: var(--foreground);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+      touch-action: manipulation;
+      overscroll-behavior-y: none;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    input[type="range"]::-webkit-slider-thumb {
+      width: 24px; height: 24px; border-radius: 9999px; cursor: pointer;
+    }
+    .pb-safe-bottom {
+      padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+    }
+    @media print {
+      body { background: #FFFFFF !important; color: #000000 !important; }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body class="bg-amber-50/40 text-slate-800 antialiased">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const WORKSPACE_STORAGE_KEY = 'bst_pbl_multi_workspace_en_v1';
+
+    function getInitialWorkspace() {
+      const marmite = {
+        id: 'bst-marmite-rebranding-project',
+        icon: '🇬🇧',
+        themeColor: 'amber',
+        isArchived: false,
+        projectName: 'The Marmite Re-Branding & Micro-Business Project',
+        projectNameEn: 'The Marmite Re-Branding & Micro-Business Project',
+        subtitle: 'BST Spring Fair (March): Re-branding Marmite from a notorious "gag/dare food" into an ultimate British Umami Secret Weapon (30-Unit Zero-Risk Pilot)',
+        subtitleEn: 'BST Spring Fair (March): Re-branding Marmite from a notorious "gag/dare food" into an ultimate British Umami Secret Weapon (30-Unit Zero-Risk Pilot)',
+        eventName: 'BST Spring Fair (March)',
+        targetAudience: 'BST Community, Parents, Teachers, and Food Enthusiasts in Tokyo',
+        eventDate: '2027-03-20',
+        tasks: [
+          {
+            id: 'task-w1-1',
+            title: 'Research Marmite heritage & yeast fermentation science to finalize the "Umami Secret Weapon" marketing angle',
+            titleEn: 'Research Marmite heritage & yeast fermentation science to finalize the "Umami Secret Weapon" marketing angle',
+            estimatedMinutes: 45,
+            assigneeRole: 'kid',
+            team: 'team_b',
+            sprintWeek: 1,
+            status: 'done',
+            note: 'Shift the narrative from a dare food to a fermented umami booster similar to Japanese miso & soy sauce.'
+          },
+          {
+            id: 'task-w1-2',
+            title: 'Analyze why traditional importing stopped & shortlist 3 UK B2B wholesale suppliers with international shipping',
+            titleEn: 'Analyze why traditional importing stopped & shortlist 3 UK B2B wholesale suppliers with international shipping',
+            estimatedMinutes: 40,
+            assigneeRole: 'kid',
+            team: 'team_a',
+            sprintWeek: 1,
+            status: 'done',
+            note: 'Compare Royal Mail / courier rates and 30-jar case wholesale prices.'
+          },
+          {
+            id: 'task-w2-1',
+            title: 'Calculate landed cost (product cost + UK shipping + fees) for 30 jars and set retail pricing (¥1,200/jar)',
+            titleEn: 'Calculate landed cost (product cost + UK shipping + fees) for 30 jars and set retail pricing (¥1,200/jar)',
+            estimatedMinutes: 35,
+            assigneeRole: 'kid',
+            team: 'team_a',
+            sprintWeek: 2,
+            status: 'doing',
+            note: 'Strict 30-unit cap to maintain Zero Inventory Risk while ensuring a healthy profit/charity margin.'
+          },
+          {
+            id: 'task-w2-2',
+            title: 'Execute GBP foreign currency credit card payment & international shipping checkout for the 30-unit small batch',
+            titleEn: 'Execute GBP foreign currency credit card payment & international shipping checkout for the 30-unit small batch',
+            estimatedMinutes: 25,
+            assigneeRole: 'adult',
+            team: 'team_a',
+            sprintWeek: 2,
+            status: 'review',
+            note: 'Parent financial guardrail: verify the 30-unit investment cap and share the UK shipment tracking number.'
+          },
+          {
+            id: 'task-w3-1',
+            title: 'Design bilingual (EN/JA) Recipe ZINEs & "How to Eat Marmite" tasting cards (Butter + Toast + Paper-thin spread)',
+            titleEn: 'Design bilingual (EN/JA) Recipe ZINEs & "How to Eat Marmite" tasting cards (Butter + Toast + Paper-thin spread)',
+            estimatedMinutes: 60,
+            assigneeRole: 'kid',
+            team: 'team_b',
+            sprintWeek: 3,
+            status: 'doing',
+            note: 'Illustrate the Golden Ratio so first-timers never spread it too thick like Nutella!'
+          },
+          {
+            id: 'task-w3-2',
+            title: 'Provide creative feedback and help print physical promotional pop-up signage, Recipe ZINEs, and labels',
+            titleEn: 'Provide creative feedback and help print physical promotional pop-up signage, Recipe ZINEs, and labels',
+            estimatedMinutes: 30,
+            assigneeRole: 'adult',
+            team: 'team_b',
+            sprintWeek: 3,
+            status: 'todo',
+            note: 'Color printing for A3 pop-up booth sign and 50 bilingual mini Recipe ZINEs.'
+          },
+          {
+            id: 'task-w3-3',
+            title: 'Inspect arrived 30-jar inventory, manage packaging readiness, and prepare the Spring Fair stock tally sheet',
+            titleEn: 'Inspect arrived 30-jar inventory, manage packaging readiness, and prepare the Spring Fair stock tally sheet',
+            estimatedMinutes: 30,
+            assigneeRole: 'kid',
+            team: 'team_a',
+            sprintWeek: 3,
+            status: 'todo',
+            note: 'Check for intact jars and bundle each jar with a bilingual Recipe ZINE & tasting card.'
+          },
+          {
+            id: 'task-w4-1',
+            title: 'BST Spring Fair Day: Set up booth, run live tasting demos (Warm Toast + Butter + Paper-thin Marmite) & sell 30 jars!',
+            titleEn: 'BST Spring Fair Day: Set up booth, run live tasting demos (Warm Toast + Butter + Paper-thin Marmite) & sell 30 jars!',
+            estimatedMinutes: 90,
+            assigneeRole: 'kid',
+            team: 'all_team',
+            sprintWeek: 4,
+            status: 'todo',
+            note: 'Team B leads umami storytelling & tasting; Team A manages live inventory count & cash/sales log.'
+          },
+          {
+            id: 'task-w4-2',
+            title: 'Post-Fair Debrief: Review final financial P&L outcomes, inventory sell-through speed, and learning reflections',
+            titleEn: 'Post-Fair Debrief: Review final financial P&L outcomes, inventory sell-through speed, and learning reflections',
+            estimatedMinutes: 40,
+            assigneeRole: 'kid',
+            team: 'all_team',
+            sprintWeek: 4,
+            status: 'todo',
+            note: 'Document customer reactions ("Love It or Hate It" conversion rate!) and final net profit.'
+          }
+        ],
+        budget: {
+          targetProfit: 12000,
+          unitPrice: 1200,
+          targetQuantity: 30,
+          maxSafeBatchSize: 30,
+          expenses: [
+            { id: 'exp-1', name: 'UK B2B Wholesale Product Cost (30 × 125g jars @ ~£62)', category: 'import', amount: 12000 },
+            { id: 'exp-2', name: 'UK → Tokyo International Shipping (Royal Mail / Courier)', category: 'import', amount: 6500 },
+            { id: 'exp-3', name: 'Foreign Currency Transaction & Customs Fee Buffer', category: 'import', amount: 1200 },
+            { id: 'exp-4', name: 'Bilingual Recipe ZINEs, Tasting Cards & Pop-up Signage Printing', category: 'marketing', amount: 1800 },
+            { id: 'exp-5', name: 'Live Tasting Demo Supplies (Toast Bread, Salted Butter, Napkins)', category: 'tasting', amount: 1500 }
+          ]
+        },
+        chatHistory: [
+          {
+            id: 'msg-welcome-1',
+            role: 'assistant',
+            content: 'Welcome to **The Marmite Re-Branding & Micro-Business Project** Strategy Studio! 🇬🇧✨\n\nOur mission for the **BST Spring Fair (March)** is to transform Marmite from a notorious "gag/dare food" into an **Ultimate British Umami Secret Weapon** — and sell out our zero-risk pilot batch of **30 jars**!\n\nWhich team\'s sprint tasks would you like to brainstorm first: **Team A (Import, Landed Cost & Pricing)** or **Team B (Umami Storytelling, Bilingual Recipe ZINEs & Live Tasting Booth)**?',
+            timestamp: 'Sprint Start',
+            suggestedTasks: [
+              {
+                title: 'Write bilingual tasting card copy explaining the Golden Ratio (Warm Toast + Salted Butter + Paper-thin Marmite)',
+                estimatedMinutes: 30,
+                assigneeRole: 'kid',
+                team: 'team_b',
+                sprintWeek: 3
+              },
+              {
+                title: 'Review final per-jar Landed Cost (UK wholesale + international shipping + FX fee) with a Parent Mentor',
+                estimatedMinutes: 25,
+                assigneeRole: 'adult',
+                team: 'team_a',
+                sprintWeek: 2
+              }
+            ]
+          }
+        ],
+        meetingLogs: []
+      };
+
+      const bakeStand = {
+        id: 'charity-shortbread-matcha-bake',
+        icon: '🧁',
+        themeColor: 'emerald',
+        isArchived: false,
+        projectName: 'British Shortbread & Uji Matcha Charity Bake Stand',
+        projectNameEn: 'British Shortbread & Uji Matcha Charity Bake Stand',
+        subtitle: 'Community Charity Bake Sale: Handcrafted Scottish-Japanese fusion shortbread boxes with full allergen safety labels',
+        subtitleEn: 'Community Charity Bake Sale: Handcrafted Scottish-Japanese fusion shortbread boxes with full allergen safety labels',
+        eventName: 'School Charity Bake Sale',
+        targetAudience: 'Students, Parents, and Teachers supporting the Children’s Book Fund',
+        eventDate: '2027-04-12',
+        tasks: [
+          {
+            id: 'bake-1',
+            title: 'Test bake 2 recipes (Classic Scottish Butter Shortbread & Uji Matcha dip) and vote on best taste',
+            titleEn: 'Test bake 2 recipes (Classic Scottish Butter Shortbread & Uji Matcha dip) and vote on best taste',
+            estimatedMinutes: 60,
+            assigneeRole: 'kid',
+            team: 'team_b',
+            sprintWeek: 1,
+            status: 'done'
+          },
+          {
+            id: 'bake-2',
+            title: 'Calculate ingredient cost for 40 gift boxes and set price at ¥500/box to reach ¥10,000 charity donation',
+            titleEn: 'Calculate ingredient cost for 40 gift boxes and set price at ¥500/box to reach ¥10,000 charity donation',
+            estimatedMinutes: 30,
+            assigneeRole: 'kid',
+            team: 'team_a',
+            sprintWeek: 2,
+            status: 'doing'
+          },
+          {
+            id: 'bake-3',
+            title: 'Verify kitchen hygiene checklist & print bilingual Allergen Safety Labels (Wheat, Dairy) with Parent Mentor',
+            titleEn: 'Verify kitchen hygiene checklist & print bilingual Allergen Safety Labels (Wheat, Dairy) with Parent Mentor',
+            estimatedMinutes: 25,
+            assigneeRole: 'adult',
+            team: 'team_a',
+            sprintWeek: 2,
+            status: 'review'
+          }
+        ],
+        budget: {
+          targetProfit: 10000,
+          unitPrice: 500,
+          targetQuantity: 40,
+          maxSafeBatchSize: 45,
+          expenses: [
+            { id: 'b-exp-1', name: 'Hokkaido Butter, Flour, Sugar & Uji Matcha Powder (40 boxes)', category: 'import', amount: 5800 },
+            { id: 'b-exp-2', name: 'Eco Kraft Gift Boxes, Ribbons & Allergen Sticker Sheets', category: 'marketing', amount: 2200 },
+            { id: 'b-exp-3', name: 'Tasting Tray Toothpicks & Paper Napkins', category: 'tasting', amount: 600 }
+          ]
+        },
+        chatHistory: [
+          {
+            id: 'msg-bake-1',
+            role: 'assistant',
+            content: 'Welcome to the **British Shortbread & Uji Matcha Charity Bake Stand**! 🧁🍵\nOur goal is to sell **40 boxes at ¥500** and donate **¥10,000+** to the Children\'s Book Fund.',
+            timestamp: 'Sprint Start',
+            suggestedTasks: []
+          }
+        ],
+        meetingLogs: []
+      };
+
+      const archivedScience = {
+        id: 'archived-science-fair-fermentation',
+        icon: '🔬',
+        themeColor: 'purple',
+        isArchived: true,
+        projectName: 'Year 7 Science Fair: Yeast Fermentation & Umami Lab',
+        projectNameEn: 'Year 7 Science Fair: Yeast Fermentation & Umami Lab',
+        subtitle: 'Completed & Archived Project: Comparing glutamate umami compounds in British Marmite, Japanese Miso, and Soy Sauce',
+        subtitleEn: 'Completed & Archived Project: Comparing glutamate umami compounds in British Marmite, Japanese Miso, and Soy Sauce',
+        eventName: 'Autumn Science Fair',
+        targetAudience: 'Science Teachers & Year 6-8 Students',
+        eventDate: '2026-10-25',
+        tasks: [
+          {
+            id: 'sci-1',
+            title: 'Build comparative poster board of Yeast Autolysis vs Koji Mold Fermentation',
+            titleEn: 'Build comparative poster board of Yeast Autolysis vs Koji Mold Fermentation',
+            estimatedMinutes: 60,
+            assigneeRole: 'kid',
+            team: 'team_b',
+            sprintWeek: 2,
+            status: 'done'
+          }
+        ],
+        budget: {
+          targetProfit: 0,
+          unitPrice: 0,
+          targetQuantity: 1,
+          maxSafeBatchSize: 10,
+          expenses: [{ id: 's-exp-1', name: 'Tri-fold Display Board & Color Diagrams', category: 'marketing', amount: 1800 }]
+        },
+        chatHistory: [],
+        meetingLogs: []
+      };
+
+      return [marmite, bakeStand, archivedScience];
+    }
+
+    const COLUMNS = [
+      { status: 'todo', titleJa: 'これから (ToDo)', titleEn: 'To Do', shortJa: 'これから', shortEn: 'To Do', subtitleJa: 'これからとりかかるやること', subtitleEn: 'Upcoming sprint actions', bgClass: 'bg-sky-50/80', borderClass: 'border-sky-200', headerBadgeClass: 'bg-sky-500 text-white', activeTabClass: 'bg-sky-500 text-white border-sky-600' },
+      { status: 'doing', titleJa: 'いまやっている (Doing)', titleEn: 'In Progress (Doing)', shortJa: '進行中', shortEn: 'Doing', subtitleJa: 'チームで進行中！', subtitleEn: 'Currently working on this!', bgClass: 'bg-amber-50/80', borderClass: 'border-amber-200', headerBadgeClass: 'bg-amber-500 text-white', activeTabClass: 'bg-amber-500 text-white border-amber-600' },
+      { status: 'review', titleJa: '大人の確認待ち (Review)', titleEn: 'Parent / Adult Support', shortJa: '大人確認', shortEn: 'Parent', subtitleJa: '決済・国際配送・印刷サポート', subtitleEn: 'FX payment, shipping & printing review', bgClass: 'bg-rose-50/80', borderClass: 'border-rose-200', headerBadgeClass: 'bg-rose-500 text-white', activeTabClass: 'bg-rose-500 text-white border-rose-600' },
+      { status: 'done', titleJa: 'かんりょう！ (Done)', titleEn: 'Completed! (Done)', shortJa: '完了!', shortEn: 'Done!', subtitleJa: 'バッチリおわったこと🎉', subtitleEn: 'Ready for Fair Day!', bgClass: 'bg-emerald-50/80', borderClass: 'border-emerald-200', headerBadgeClass: 'bg-emerald-500 text-white', activeTabClass: 'bg-emerald-500 text-white border-emerald-600' }
+    ];
+
+    const STATUS_ORDER = ['todo', 'doing', 'review', 'done'];
+
+    function App() {
+      const [projects, setProjects] = useState(() => {
+        try {
+          const saved = localStorage.getItem(WORKSPACE_STORAGE_KEY);
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            if (parsed && Array.isArray(parsed.projects) && parsed.projects.length > 0) {
+              return parsed.projects;
+            }
+          }
+        } catch (e) {}
+        return getInitialWorkspace();
+      });
+
+      const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+      const [lang, setLang] = useState('en');
+      const [activeTab, setActiveTab] = useState('kanban');
+      const [deviceMode, setDeviceMode] = useState('responsive');
+      const [isNewProjectModalOpen, setIsNewProjectModalOpen] = useState(false);
+      const [toastMessage, setToastMessage] = useState(null);
+
+      // Kanban Board states
+      const [mobileColumnView, setMobileColumnView] = useState('todo');
+      const [selectedTeamFilter, setSelectedTeamFilter] = useState('all');
+      const [selectedWeekFilter, setSelectedWeekFilter] = useState('all');
+      const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+      const [editingTaskId, setEditingTaskId] = useState(null);
+      const [taskTitle, setTaskTitle] = useState('');
+      const [taskMinutes, setTaskMinutes] = useState(30);
+      const [taskRole, setTaskRole] = useState('kid');
+      const [taskTeam, setTaskTeam] = useState('team_b');
+      const [taskWeek, setTaskWeek] = useState(1);
+      const [taskDueDate, setTaskDueDate] = useState('');
+      const [taskStatus, setTaskStatus] = useState('todo');
+      const [taskNote, setTaskNote] = useState('');
+
+      // AI Chat state
+      const [chatInput, setChatInput] = useState('');
+
+      // Budget new expense state
+      const [newExpName, setNewExpName] = useState('');
+      const [newExpAmount, setNewExpAmount] = useState('');
+      const [newExpCategory, setNewExpCategory] = useState('import');
+
+      // Worksheet scanner state
+      const [scanNotes, setScanNotes] = useState('');
+      const [scanResult, setScanResult] = useState(null);
+
+      // New Project AI Modal state
+      const [newProjMode, setNewProjMode] = useState('interview');
+      const [ideaInput, setIdeaInput] = useState('');
+      const [audienceInput, setAudienceInput] = useState('');
+      const [supportInput, setSupportInput] = useState('');
+      const [proposalInput, setProposalInput] = useState('');
+
+      const touchStartX = useRef(null);
+      const touchStartY = useRef(null);
+
+      useEffect(() => {
+        try {
+          localStorage.setItem(WORKSPACE_STORAGE_KEY, JSON.stringify({ projects }));
+        } catch (e) {}
+      }, [projects]);
+
+      const activeProjects = projects.filter((p) => !p.isArchived);
+      const archivedProjects = projects.filter((p) => p.isArchived);
+      const totalSlides = activeProjects.length + 1;
+      const safeSlideIndex = Math.min(currentSlideIndex, totalSlides - 1);
+      const isHubSlide = safeSlideIndex === activeProjects.length;
+      const currentProject = !isHubSlide ? activeProjects[safeSlideIndex] : activeProjects[0];
+
+      const showToast = (msg) => {
+        setToastMessage(msg);
+        setTimeout(() => setToastMessage((p) => (p === msg ? null : p)), 2800);
+      };
+
+      const updateCurrentProject = (updater) => {
+        if (!currentProject) return;
+        const targetId = currentProject.id;
+        setProjects((prev) => prev.map((p) => (p.id === targetId ? updater(p) : p)));
+      };
+
+      const handleTouchStart = (e) => {
+        if (e.touches.length !== 1) return;
+        touchStartX.current = e.touches[0].clientX;
+        touchStartY.current = e.touches[0].clientY;
+      };
+
+      const handleTouchEnd = (e) => {
+        if (touchStartX.current === null || touchStartY.current === null || e.changedTouches.length !== 1) return;
+        const el = e.target;
+        if (el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT' || (el.closest && el.closest('.overflow-x-auto')))) {
+          touchStartX.current = null;
+          touchStartY.current = null;
+          return;
+        }
+        const dx = e.changedTouches[0].clientX - touchStartX.current;
+        const dy = e.changedTouches[0].clientY - touchStartY.current;
+        if (Math.abs(dx) > 75 && Math.abs(dx) > Math.abs(dy) * 1.8) {
+          if (dx < 0) setCurrentSlideIndex((p) => Math.min(totalSlides - 1, p + 1));
+          else setCurrentSlideIndex((p) => Math.max(0, p - 1));
+        }
+        touchStartX.current = null;
+        touchStartY.current = null;
+      };
+
+      const openAddTask = (status = 'todo') => {
+        setEditingTaskId(null);
+        setTaskTitle('');
+        setTaskMinutes(30);
+        setTaskRole('kid');
+        setTaskTeam('team_b');
+        setTaskWeek(1);
+        setTaskDueDate('');
+        setTaskStatus(status);
+        setTaskNote('');
+        setIsTaskModalOpen(true);
+      };
+
+      const openEditTask = (task) => {
+        setEditingTaskId(task.id);
+        setTaskTitle(task.titleEn || task.title);
+        setTaskMinutes(task.estimatedMinutes || 30);
+        setTaskRole(task.assigneeRole || 'kid');
+        setTaskTeam(task.team || 'all_team');
+        setTaskWeek(task.sprintWeek || 1);
+        setTaskDueDate(task.dueDate || '');
+        setTaskStatus(task.status);
+        setTaskNote(task.note || '');
+        setIsTaskModalOpen(true);
+      };
+
+      const handleSaveTask = (e) => {
+        e.preventDefault();
+        if (!taskTitle.trim()) return;
+        if (editingTaskId) {
+          updateCurrentProject((prev) => ({
+            ...prev,
+            tasks: prev.tasks.map((t) =>
+              t.id === editingTaskId
+                ? { ...t, title: taskTitle.trim(), titleEn: taskTitle.trim(), estimatedMinutes: Number(taskMinutes) || 30, assigneeRole: taskRole, team: taskTeam, sprintWeek: Number(taskWeek), dueDate: taskDueDate || undefined, status: taskStatus, note: taskNote.trim() || undefined }
+                : t
+            )
+          }));
+          showToast(lang === 'ja' ? '✏️ タスクを更新しました！' : '✏️ Updated task card!');
+        } else {
+          const created = {
+            id: 'task-' + Date.now(),
+            title: taskTitle.trim(),
+            titleEn: taskTitle.trim(),
+            estimatedMinutes: Number(taskMinutes) || 30,
+            assigneeRole: taskRole,
+            team: taskTeam,
+            sprintWeek: Number(taskWeek),
+            dueDate: taskDueDate || undefined,
+            status: taskStatus,
+            note: taskNote.trim() || undefined
+          };
+          updateCurrentProject((prev) => ({ ...prev, tasks: [created, ...prev.tasks] }));
+          showToast(lang === 'ja' ? '✨ タスクを追加しました！' : '✨ Added new task card!');
+        }
+        setMobileColumnView(taskStatus);
+        setIsTaskModalOpen(false);
+      };
+
+      const moveTaskStatus = (taskId, newStatus) => {
+        updateCurrentProject((prev) => ({
+          ...prev,
+          tasks: prev.tasks.map((t) => (t.id === taskId ? { ...t, status: newStatus } : t))
+        }));
+      };
+
+      const deleteTask = (taskId) => {
+        updateCurrentProject((prev) => ({
+          ...prev,
+          tasks: prev.tasks.filter((t) => t.id !== taskId)
+        }));
+        showToast(lang === 'ja' ? 'カードを削除しました' : 'Deleted task card');
+      };
+
+      const handleSendChat = (text) => {
+        const trimmed = text.trim();
+        if (!trimmed || !currentProject) return;
+        const userMsg = { id: 'u-' + Date.now(), role: 'user', content: trimmed, timestamp: 'Now' };
+        const lower = trimmed.toLowerCase();
+        let reply = 'Awesome strategy idea! 🇬🇧✨\nTo shift Marmite from a notorious "gag/dare food" into an **Ultimate British Umami Secret Weapon**, showing visitors that **Marmite is made from yeast fermentation — rich in natural glutamates just like Japanese Miso and Soy Sauce** — will really spark curiosity!';
+        let suggestedTasks = [
+          { title: 'Design a bilingual pop-up sign comparing British Yeast Umami (Marmite) with Japanese Miso & Soy Sauce', estimatedMinutes: 45, assigneeRole: 'kid', team: 'team_b', sprintWeek: 1 },
+          { title: 'Set up a "Love It or Love It!" sticker voting board for visitors who try the live toast tasting', estimatedMinutes: 30, assigneeRole: 'kid', team: 'team_b', sprintWeek: 3 }
+        ];
+
+        if (lower.includes('team a') || lower.includes('import') || lower.includes('landed') || lower.includes('price') || lower.includes('輸入') || lower.includes('原価')) {
+          reply = 'Great focus for **Team A: Import & Finance**! 📦💷\nWhen importing Marmite from the UK to Tokyo, the key is calculating your **Landed Cost per Jar** (UK wholesale cost + shipping + FX fee ÷ 30 jars).\n\nIf our all-in cost is around ¥770/jar, **what retail price (bundled with your bilingual Recipe ZINE) will parents and foodies at the BST Spring Fair happily pay?**';
+          suggestedTasks = [
+            { title: 'Compare 3 UK B2B wholesale suppliers for 30-jar case pricing and UK-to-Tokyo shipping rates', estimatedMinutes: 35, assigneeRole: 'kid', team: 'team_a', sprintWeek: 2 },
+            { title: 'Complete GBP credit card checkout and international shipping order with a Parent Mentor', estimatedMinutes: 20, assigneeRole: 'adult', team: 'team_a', sprintWeek: 2 }
+          ];
+        } else if (lower.includes('tasting') || lower.includes('toast') || lower.includes('zine') || lower.includes('試食')) {
+          reply = 'The live tasting booth and Recipe ZINE are the heart of **Team B: Marketing & Experience**! 🍞🧈✨\nWhen you serve **Warm Toast + Melted Salted Butter + Paper-Thin Marmite**, the yeast glutamate umami pops!';
+          suggestedTasks = [
+            { title: 'Design the "3-Step Golden Ratio Tasting Card" (Warm Toast + Salted Butter + Paper-thin Marmite)', estimatedMinutes: 40, assigneeRole: 'kid', team: 'team_b', sprintWeek: 3 },
+            { title: 'Print 50 copies of the Bilingual Recipe ZINE and prepare tasting booth supplies with a Parent Mentor', estimatedMinutes: 30, assigneeRole: 'adult', team: 'team_b', sprintWeek: 3 }
+          ];
+        }
+
+        const aiMsg = { id: 'ai-' + (Date.now() + 1), role: 'assistant', content: reply, suggestedTasks, timestamp: 'Now' };
+        updateCurrentProject((prev) => ({ ...prev, chatHistory: [...prev.chatHistory, userMsg, aiMsg] }));
+        setChatInput('');
+      };
+
+      const handleCreateProjectWithAi = (e) => {
+        e.preventDefault();
+        const raw = newProjMode === 'proposal' ? proposalInput.trim() : `${ideaInput} ${audienceInput} ${supportInput}`.trim();
+        if (!raw) return;
+        const firstLine = raw.split('\n').map((l) => l.trim()).find((l) => l.length > 3) || 'New Student PBL Project';
+        const cleanTitle = firstLine.replace(/^(project proposal|proposal|title|企画書)\s*[:：-]\s*/i, '').slice(0, 60);
+        const lower = raw.toLowerCase();
+        let icon = '🚀';
+        if (lower.includes('eco') || lower.includes('tote') || lower.includes('bag')) icon = '🌱';
+        else if (lower.includes('lemon') || lower.includes('drink')) icon = '🍋';
+        else if (lower.includes('study') || lower.includes('exam')) icon = '📚';
+
+        const nowId = 'proj-' + Date.now();
+        const newProj = {
+          id: nowId,
+          icon,
+          themeColor: 'sky',
+          isArchived: false,
+          projectName: cleanTitle,
+          projectNameEn: cleanTitle,
+          subtitle: raw.slice(0, 140),
+          subtitleEn: raw.slice(0, 140),
+          eventName: audienceInput || 'School Fair & Showcase',
+          targetAudience: audienceInput || 'Students, Parents & Teachers',
+          eventDate: '2027-03-27',
+          tasks: [
+            { id: nowId + '-1', title: `Week 1 Research: Define concept & customer value for "${cleanTitle}"`, titleEn: `Week 1 Research: Define concept & customer value for "${cleanTitle}"`, estimatedMinutes: 35, assigneeRole: 'kid', team: 'team_b', sprintWeek: 1, status: 'todo' },
+            { id: nowId + '-2', title: 'Week 2 Sourcing & Pricing: Calculate unit costs for a 30-unit zero-risk batch', titleEn: 'Week 2 Sourcing & Pricing: Calculate unit costs for a 30-unit zero-risk batch', estimatedMinutes: 35, assigneeRole: 'kid', team: 'team_a', sprintWeek: 2, status: 'todo' },
+            { id: nowId + '-3', title: supportInput ? `Parent/Teacher Guardrail: ${supportInput}` : 'Parent/Teacher Guardrail: Review budget cap, payment checkout & safety rules', titleEn: supportInput ? `Parent/Teacher Guardrail: ${supportInput}` : 'Parent/Teacher Guardrail: Review budget cap, payment checkout & safety rules', estimatedMinutes: 25, assigneeRole: 'adult', team: 'team_a', sprintWeek: 2, status: 'review' },
+            { id: nowId + '-4', title: 'Week 3 Creative: Design bilingual booth signage & customer guides', titleEn: 'Week 3 Creative: Design bilingual booth signage & customer guides', estimatedMinutes: 45, assigneeRole: 'kid', team: 'team_b', sprintWeek: 3, status: 'todo' },
+            { id: nowId + '-5', title: 'Week 4 Fair Day: Execute live booth, track sales & review outcomes!', titleEn: 'Week 4 Fair Day: Execute live booth, track sales & review outcomes!', estimatedMinutes: 90, assigneeRole: 'kid', team: 'all_team', sprintWeek: 4, status: 'todo' }
+          ],
+          budget: {
+            targetProfit: 10000,
+            unitPrice: 800,
+            targetQuantity: 30,
+            maxSafeBatchSize: 30,
+            expenses: [
+              { id: nowId + '-e1', name: 'Core Materials & Product Sourcing (30 units)', category: 'import', amount: 8500 },
+              { id: nowId + '-e2', name: 'Bilingual Posters, ZINEs & Labels Printing', category: 'marketing', amount: 2000 },
+              { id: nowId + '-e3', name: 'Booth Display & Demo Supplies', category: 'tasting', amount: 1500 }
+            ]
+          },
+          chatHistory: [
+            { id: nowId + '-w', role: 'assistant', content: `🎉 Built workspace for **${cleanTitle}**! Ask me anything to break down more tasks.`, timestamp: 'Just Created', suggestedTasks: [] }
+          ],
+          meetingLogs: []
+        };
+
+        setProjects((prev) => {
+          const next = [...prev, newProj];
+          const nextActive = next.filter((p) => !p.isArchived);
+          setCurrentSlideIndex(nextActive.length - 1);
+          return next;
+        });
+        setActiveTab('kanban');
+        setIdeaInput('');
+        setAudienceInput('');
+        setSupportInput('');
+        setProposalInput('');
+        setIsNewProjectModalOpen(false);
+        showToast(`🎉 Launched "${cleanTitle}"!`);
+      };
+
+      const containerWidthClass =
+        deviceMode === 'mobile'
+          ? 'max-w-[430px] border-x-4 border-slate-800 shadow-2xl bg-amber-50/40 min-h-screen'
+          : deviceMode === 'tablet'
+          ? 'max-w-[820px] border-x-4 border-slate-700 shadow-2xl bg-amber-50/40 min-h-screen'
+          : 'max-w-7xl';
+
+      const expectedRevenue = currentProject ? currentProject.budget.unitPrice * currentProject.budget.targetQuantity : 0;
+      const totalExpenses = currentProject ? currentProject.budget.expenses.reduce((s, i) => s + (Number(i.amount) || 0), 0) : 0;
+      const netProfit = expectedRevenue - totalExpenses;
+      const targetProfit = currentProject ? Math.max(1, currentProject.budget.targetProfit) : 1;
+      const achievementPct = Math.max(0, Math.min(100, Math.round((netProfit / targetProfit) * 100)));
+
+      const filteredTasks = currentProject
+        ? currentProject.tasks.filter((t) => {
+            if (selectedTeamFilter !== 'all' && t.team !== selectedTeamFilter && t.team !== 'all_team') return false;
+            if (selectedWeekFilter !== 'all' && t.sprintWeek !== selectedWeekFilter) return false;
+            return true;
+          })
+        : [];
+
+      return (
+        <div className="min-h-screen pb-24 lg:pb-12" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+          {/* Top Device Preview Bar */}
+          <div className="hidden md:flex items-center justify-between gap-3 bg-slate-900 text-white px-4 py-2 text-xs font-bold no-print">
+            <div className="flex items-center gap-2">
+              <span className="bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded-md text-[11px]">MULTI-PROJECT SWIPE DECK</span>
+              <span className="text-slate-300">Swipe left/right between projects • Rightmost slide is the Project Hub & AI Creator</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              {['responsive', 'tablet', 'mobile'].map((m) => (
+                <button
+                  key={m}
+                  onClick={() => setDeviceMode(m)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-extrabold cursor-pointer ${deviceMode === m ? 'bg-amber-400 text-slate-950' : 'bg-slate-800 text-slate-300'}`}
+                >
+                  {m === 'responsive' ? '🖥️ Auto Fit' : m === 'tablet' ? '平板 Tablet (iPad)' : '📱 Mobile (Phone)'}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className={`py-2.5 sm:py-4 px-3 sm:px-5 lg:px-8 mx-auto transition-all ${containerWidthClass}`}>
+            {/* Horizontal Project Slide Switcher Bar */}
+            <div className="sticky top-2 z-30 bg-slate-900/95 backdrop-blur-md text-white rounded-2xl p-2 mb-3 shadow-md border border-slate-700 no-print">
+              <div className="flex items-center justify-between gap-1.5">
+                <button
+                  disabled={safeSlideIndex <= 0}
+                  onClick={() => setCurrentSlideIndex((p) => Math.max(0, p - 1))}
+                  className={`min-h-[36px] px-2.5 py-1 rounded-xl text-xs font-extrabold ${safeSlideIndex > 0 ? 'bg-slate-800 hover:bg-slate-700 text-white cursor-pointer' : 'bg-slate-800/40 text-slate-600'}`}
+                >
+                  ◀ Prev
+                </button>
+
+                <div className="flex-1 flex items-center gap-1.5 overflow-x-auto no-scrollbar px-1">
+                  {activeProjects.map((proj, idx) => {
+                    const isSelected = !isHubSlide && safeSlideIndex === idx;
+                    return (
+                      <button
+                        key={proj.id}
+                        onClick={() => setCurrentSlideIndex(idx)}
+                        className={`min-h-[36px] px-3 py-1.5 rounded-xl text-xs font-extrabold flex items-center gap-1.5 shrink-0 cursor-pointer ${
+                          isSelected ? 'bg-amber-400 text-slate-950 shadow-xs' : 'bg-slate-800 text-slate-200'
+                        }`}
+                      >
+                        <span>{proj.icon || '🚀'}</span>
+                        <span className="truncate max-w-[140px]">{proj.projectName}</span>
+                        <span className="text-[10px] px-1.5 rounded-full bg-black/15">{idx + 1}/{activeProjects.length}</span>
+                      </button>
+                    );
+                  })}
+
+                  <button
+                    onClick={() => setCurrentSlideIndex(activeProjects.length)}
+                    className={`min-h-[36px] px-3 py-1.5 rounded-xl text-xs font-extrabold flex items-center gap-1.5 shrink-0 cursor-pointer border ${
+                      isHubSlide ? 'bg-sky-400 text-slate-950 border-sky-300' : 'bg-slate-800 text-sky-300 border-sky-500/40'
+                    }`}
+                  >
+                    🗂️ Project Hub (+ New)
+                  </button>
+                </div>
+
+                <button
+                  disabled={safeSlideIndex >= totalSlides - 1}
+                  onClick={() => setCurrentSlideIndex((p) => Math.min(totalSlides - 1, p + 1))}
+                  className={`min-h-[36px] px-2.5 py-1 rounded-xl text-xs font-extrabold ${safeSlideIndex < totalSlides - 1 ? 'bg-slate-800 hover:bg-slate-700 text-white cursor-pointer' : 'bg-slate-800/40 text-slate-600'}`}
+                >
+                  Next ▶
+                </button>
+              </div>
+            </div>
+
+            {/* RIGHTMOST SLIDE: PROJECT HUB & ARCHIVE MANAGER */}
+            {isHubSlide || !currentProject ? (
+              <div className="space-y-6">
+                <div className="bg-white border-2 border-slate-200 rounded-3xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <span className="text-[11px] font-extrabold uppercase bg-amber-100 text-amber-800 px-2.5 py-0.5 rounded-full">Rightmost Page • App Launcher</span>
+                    <h2 className="text-xl font-black text-slate-900 mt-1">🗂️ All Projects Hub & AI Project Launcher</h2>
+                    <p className="text-xs text-slate-600 font-semibold">Tap any project icon to open its board, archive completed projects, or launch a new project with AI!</p>
+                  </div>
+                  <button
+                    onClick={() => setIsNewProjectModalOpen(true)}
+                    className="bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs sm:text-sm px-5 py-3 rounded-2xl shadow-sm cursor-pointer shrink-0"
+                  >
+                    ✨ + New Project with AI
+                  </button>
+                </div>
+
+                <div className="bg-white border-2 border-slate-200 rounded-3xl p-5">
+                  <h3 className="text-sm font-extrabold text-slate-800 mb-4">🚀 Active Projects ({activeProjects.length})</h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {activeProjects.map((proj, idx) => {
+                      const doneCount = proj.tasks.filter((t) => t.status === 'done').length;
+                      return (
+                        <div key={proj.id} className="rounded-3xl border-2 border-amber-200 bg-amber-50/30 p-4 flex flex-col items-center text-center justify-between">
+                          <div className="w-full flex justify-between text-[10px] font-extrabold text-slate-500 mb-2">
+                            <span>Slide #{idx + 1}</span>
+                            <span>{doneCount}/{proj.tasks.length} Done</span>
+                          </div>
+                          <button
+                            onClick={() => { setCurrentSlideIndex(idx); setActiveTab('kanban'); }}
+                            className="flex flex-col items-center cursor-pointer"
+                          >
+                            <div className="w-16 h-16 rounded-3xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-3xl shadow-md mb-2 border-2 border-white">
+                              {proj.icon || '🚀'}
+                            </div>
+                            <h4 className="font-extrabold text-xs sm:text-sm text-slate-900 line-clamp-2">{proj.projectName}</h4>
+                            <p className="text-[11px] text-slate-500 font-bold mt-0.5">{proj.eventName}</p>
+                          </button>
+                          <div className="w-full mt-3 pt-2 border-t border-slate-200 flex flex-col gap-1.5">
+                            <button
+                              onClick={() => { setCurrentSlideIndex(idx); setActiveTab('kanban'); }}
+                              className="w-full bg-slate-900 text-white text-xs font-extrabold py-1.5 rounded-xl cursor-pointer"
+                            >
+                              Open Board ↗
+                            </button>
+                            <div className="grid grid-cols-2 gap-1">
+                              <button
+                                onClick={() => {
+                                  setProjects((prev) => prev.map((p) => (p.id === proj.id ? { ...p, isArchived: true } : p)));
+                                  showToast(`📦 Archived "${proj.projectName.slice(0, 18)}"`);
+                                }}
+                                className="bg-white border border-slate-300 text-slate-700 text-[11px] font-extrabold py-1 rounded-xl cursor-pointer"
+                              >
+                                📦 Archive
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setProjects((prev) => prev.filter((p) => p.id !== proj.id));
+                                  showToast(`🗑️ Deleted "${proj.projectName.slice(0, 18)}"`);
+                                }}
+                                className="bg-white border border-rose-200 text-rose-700 text-[11px] font-extrabold py-1 rounded-xl cursor-pointer"
+                              >
+                                🗑️ Delete
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                    {/* + Create New Project App Tile */}
+                    <button
+                      onClick={() => setIsNewProjectModalOpen(true)}
+                      className="rounded-3xl border-2 border-dashed border-amber-400 bg-amber-50/50 hover:bg-amber-100/60 p-4 flex flex-col items-center justify-center text-center min-h-[220px] cursor-pointer"
+                    >
+                      <div className="w-16 h-16 rounded-3xl bg-amber-400 text-slate-950 flex items-center justify-center text-3xl font-black shadow-md mb-2 border-2 border-white">
+                        ＋
+                      </div>
+                      <span className="text-[10px] font-black bg-amber-200 text-amber-950 px-2 py-0.5 rounded-full mb-1">AI ARCHITECT</span>
+                      <h4 className="font-black text-xs sm:text-sm text-slate-900">+ Create New Project</h4>
+                      <p className="text-[11px] text-slate-600 font-semibold mt-0.5">AI requirement interview or paste a Project Proposal!</p>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Archived Projects */}
+                <div className="bg-slate-100 border-2 border-slate-200 rounded-3xl p-5">
+                  <h3 className="text-sm font-extrabold text-slate-800 mb-3">📦 Archived Projects ({archivedProjects.length})</h3>
+                  {archivedProjects.length === 0 ? (
+                    <p className="text-xs text-slate-500 font-bold">No archived projects.</p>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {archivedProjects.map((arch) => (
+                        <div key={arch.id} className="bg-white border border-slate-300 rounded-2xl p-3 flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <span className="text-2xl">{arch.icon || '📁'}</span>
+                            <div className="min-w-0">
+                              <h4 className="font-extrabold text-xs sm:text-sm text-slate-800 truncate">{arch.projectName}</h4>
+                              <p className="text-[11px] text-slate-500 font-bold">{arch.eventName}</p>
+                            </div>
+                          </div>
+                          <div className="flex gap-1.5 shrink-0">
+                            <button
+                              onClick={() => {
+                                setProjects((prev) => prev.map((p) => (p.id === arch.id ? { ...p, isArchived: false } : p)));
+                                showToast(`↩️ Restored "${arch.projectName.slice(0, 18)}"`);
+                              }}
+                              className="bg-sky-50 border border-sky-300 text-sky-900 text-xs font-extrabold px-3 py-1.5 rounded-xl cursor-pointer"
+                            >
+                              ↩️ Restore
+                            </button>
+                            <button
+                              onClick={() => setProjects((prev) => prev.filter((p) => p.id !== arch.id))}
+                              className="bg-rose-50 border border-rose-200 text-rose-700 text-xs font-extrabold px-2.5 py-1.5 rounded-xl cursor-pointer"
+                            >
+                              🗑️
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              /* ACTIVE PROJECT WORKSPACE */
+              <>
+                {/* Compact Header */}
+                <header className="bg-white border-2 border-amber-300 rounded-3xl p-4 shadow-xs mb-4 no-print">
+                  <div className="flex items-center justify-between gap-2 flex-wrap mb-2">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="bg-amber-400 text-slate-950 px-2.5 py-0.5 rounded-full text-xs font-extrabold">
+                        {currentProject.icon || '🇬🇧'} {currentProject.eventName}
+                      </span>
+                      <span className="bg-emerald-50 text-emerald-900 border border-emerald-200 px-2.5 py-0.5 rounded-full text-xs font-extrabold">
+                        💰 Net Profit: ¥{netProfit.toLocaleString()} ({achievementPct}%)
+                      </span>
+                      <span className="bg-sky-50 text-sky-900 border border-sky-200 px-2.5 py-0.5 rounded-full text-xs font-extrabold">
+                        🛡️ {currentProject.budget.targetQuantity} Units Cap
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={() => setLang(lang === 'en' ? 'ja' : 'en')}
+                        className="bg-slate-900 text-white text-xs font-extrabold px-3 py-1 rounded-full cursor-pointer"
+                      >
+                        🌐 {lang === 'en' ? 'EN / 日本語' : '日本語 / EN'}
+                      </button>
+                      <button
+                        onClick={() => {
+                          const fresh = getInitialWorkspace();
+                          setProjects(fresh);
+                          setCurrentSlideIndex(0);
+                          showToast('🔄 Reset workspace to initial preset!');
+                        }}
+                        className="bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 text-xs font-extrabold px-2.5 py-1 rounded-full cursor-pointer"
+                      >
+                        Reset
+                      </button>
+                    </div>
+                  </div>
+                  <h1 className="text-lg sm:text-2xl font-black text-slate-900">{currentProject.projectName}</h1>
+                  <p className="text-xs text-slate-600 font-medium mt-0.5">{currentProject.subtitle}</p>
+                </header>
+
+                {/* Top Navigation Tabs (Tablet/Desktop) */}
+                <nav className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-2.5 mb-5 no-print">
+                  {[
+                    { id: 'kanban', label: `📋 1. Task Board (${currentProject.tasks.length})`, activeCls: 'bg-sky-500 text-white border-sky-600' },
+                    { id: 'ai-chat', label: '🤖 2. AI Strategy Chat', activeCls: 'bg-amber-500 text-white border-amber-600' },
+                    { id: 'budget', label: '🧮 3. Landed Cost & P&L', activeCls: 'bg-emerald-500 text-white border-emerald-600' },
+                    { id: 'proposal', label: '📄 4. Proposal & Print', activeCls: 'bg-slate-900 text-white border-slate-900' }
+                  ].map((tb) => (
+                    <button
+                      key={tb.id}
+                      onClick={() => setActiveTab(tb.id)}
+                      className={`py-3 px-3.5 rounded-2xl border-2 font-extrabold text-xs sm:text-sm cursor-pointer transition ${
+                        activeTab === tb.id ? tb.activeCls : 'bg-white text-slate-700 border-slate-200'
+                      }`}
+                    >
+                      {tb.label}
+                    </button>
+                  ))}
+                </nav>
+
+                {/* TAB 1: KANBAN BOARD */}
+                {activeTab === 'kanban' && (
+                  <div className="space-y-4">
+                    <div className="bg-white border-2 border-slate-200 rounded-3xl p-4 space-y-3">
+                      <div className="flex items-center justify-between gap-2 flex-wrap">
+                        <h2 className="text-base sm:text-lg font-extrabold text-slate-800">📋 4-Week Sprint Kanban Board</h2>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => setActiveTab('proposal')}
+                            className="bg-indigo-50 text-indigo-950 border border-indigo-200 font-extrabold text-xs px-3 py-2 rounded-xl cursor-pointer"
+                          >
+                            📸 Scan School Sheet
+                          </button>
+                          <button
+                            onClick={() => openAddTask('todo')}
+                            className="bg-sky-500 hover:bg-sky-600 text-white font-extrabold text-xs px-3.5 py-2 rounded-xl cursor-pointer"
+                          >
+                            + Add Task
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Filters */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-slate-100">
+                        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+                          {[
+                            { id: 'all', label: 'All Teams' },
+                            { id: 'team_a', label: '📦 Team A: Import' },
+                            { id: 'team_b', label: '🎨 Team B: Marketing' }
+                          ].map((tf) => (
+                            <button
+                              key={tf.id}
+                              onClick={() => setSelectedTeamFilter(tf.id)}
+                              className={`px-3 py-1 rounded-full text-xs font-extrabold border shrink-0 cursor-pointer ${
+                                selectedTeamFilter === tf.id ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-50 text-slate-700 border-slate-200'
+                              }`}
+                            >
+                              {tf.label}
+                            </button>
+                          ))}
+                        </div>
+
+                        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+                          {['all', 1, 2, 3, 4].map((w) => (
+                            <button
+                              key={String(w)}
+                              onClick={() => setSelectedWeekFilter(w)}
+                              className={`px-3 py-1 rounded-full text-xs font-extrabold border shrink-0 cursor-pointer ${
+                                selectedWeekFilter === w ? 'bg-amber-500 text-white border-amber-600' : 'bg-amber-50 text-amber-950 border-amber-200'
+                              }`}
+                            >
+                              {w === 'all' ? 'All Weeks' : `Week ${w}`}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Mobile Column Sub-Tabs */}
+                      <div className="lg:hidden flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-2 border-t border-slate-100">
+                        {COLUMNS.map((col) => {
+                          const cnt = filteredTasks.filter((t) => t.status === col.status).length;
+                          const sel = mobileColumnView === col.status;
+                          return (
+                            <button
+                              key={col.status}
+                              onClick={() => setMobileColumnView(col.status)}
+                              className={`flex-1 min-w-[76px] py-2 px-2 rounded-xl border-2 text-xs font-extrabold shrink-0 cursor-pointer ${
+                                sel ? col.activeTabClass : 'bg-white text-slate-700 border-slate-200'
+                              }`}
+                            >
+                              {col.shortEn} ({cnt})
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Columns Grid */}
+                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+                      {COLUMNS.map((col) => {
+                        const colTasks = filteredTasks.filter((t) => t.status === col.status);
+                        const hiddenOnMobile = mobileColumnView !== col.status ? 'hidden lg:flex' : 'flex';
+                        return (
+                          <div key={col.status} className={`${hiddenOnMobile} flex-col rounded-3xl border-2 p-3.5 min-h-[340px] ${col.bgClass} ${col.borderClass}`}>
+                            <div className="flex items-center justify-between pb-2.5 mb-3 border-b-2 border-white/80">
+                              <div>
+                                <h3 className="font-extrabold text-slate-800 text-sm sm:text-base">{col.titleEn}</h3>
+                                <p className="text-[11px] text-slate-500 font-semibold">{col.subtitleEn}</p>
+                              </div>
+                              <span className={`text-xs font-extrabold px-2.5 py-0.5 rounded-full ${col.headerBadgeClass}`}>{colTasks.length}</span>
+                            </div>
+
+                            <div className="space-y-3 flex-1">
+                              {colTasks.map((task) => {
+                                const idx = STATUS_ORDER.indexOf(task.status);
+                                return (
+                                  <div key={task.id} className="bg-white border-2 border-slate-200 rounded-2xl p-3.5 shadow-xs space-y-2">
+                                    <div className="flex items-center justify-between gap-1">
+                                      <div className="flex items-center gap-1 flex-wrap">
+                                        <span className={`px-2 py-0.5 rounded-full text-[11px] font-extrabold border ${task.assigneeRole === 'kid' ? 'bg-sky-100 text-sky-900 border-sky-300' : 'bg-rose-100 text-rose-900 border-rose-300'}`}>
+                                          {task.assigneeRole === 'kid' ? '🙋 Student Lead' : '🤝 Parent Mentor'}
+                                        </span>
+                                        <span className="bg-amber-100 text-amber-900 border border-amber-300 px-2 py-0.5 rounded-full text-[11px] font-extrabold">
+                                          ⏱️ {task.estimatedMinutes}m
+                                        </span>
+                                        <span className="bg-slate-100 text-slate-700 border border-slate-300 px-2 py-0.5 rounded-full text-[10px] font-extrabold">
+                                          W{task.sprintWeek || 1}
+                                        </span>
+                                      </div>
+                                      <div className="flex gap-1">
+                                        <button onClick={() => openEditTask(task)} className="text-xs text-slate-400 hover:text-sky-600 p-1 cursor-pointer">✏️</button>
+                                        <button onClick={() => deleteTask(task.id)} className="text-xs text-slate-400 hover:text-rose-600 p-1 cursor-pointer">🗑️</button>
+                                      </div>
+                                    </div>
+
+                                    <h4 className="font-extrabold text-sm text-slate-800 leading-snug">{task.titleEn || task.title}</h4>
+                                    {task.note && <p className="text-xs text-slate-600 bg-slate-50 border border-slate-200 rounded-xl p-2 font-medium">💡 {task.note}</p>}
+
+                                    {/* 1-Tap Direct Status Bar */}
+                                    <div className="grid grid-cols-4 gap-1 pt-2 border-t border-slate-100">
+                                      {COLUMNS.map((c) => (
+                                        <button
+                                          key={c.status}
+                                          onClick={() => moveTaskStatus(task.id, c.status)}
+                                          className={`py-1 rounded-lg text-[10px] font-extrabold border cursor-pointer ${
+                                            task.status === c.status ? c.activeTabClass : 'bg-slate-50 text-slate-600 border-slate-200'
+                                          }`}
+                                        >
+                                          {c.shortEn}
+                                        </button>
+                                      ))}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* TAB 2: AI STRATEGY CHAT */}
+                {activeTab === 'ai-chat' && (
+                  <div className="bg-white border-2 border-amber-200 rounded-3xl p-4 sm:p-6 space-y-4">
+                    <div className="border-b border-amber-100 pb-3">
+                      <h2 className="text-lg font-extrabold text-slate-800">🤖 Marmite & PBL AI Strategy Facilitator</h2>
+                      <p className="text-xs text-slate-600 font-semibold">Brainstorm Team A (Import & Landed Cost) or Team B (Umami Re-Branding & ZINEs) and add tasks directly to the board!</p>
+                    </div>
+
+                    <div className="space-y-3 max-h-[460px] overflow-y-auto pr-1">
+                      {currentProject.chatHistory.map((msg) => (
+                        <div key={msg.id} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
+                          <div className={`max-w-[92%] rounded-3xl p-4 ${msg.role === 'user' ? 'bg-sky-500 text-white' : 'bg-amber-50 border-2 border-amber-200 text-slate-800'}`}>
+                            <div className="text-xs font-extrabold mb-1 opacity-75">{msg.role === 'user' ? '🙋 You' : '🤖 AI Facilitator'}</div>
+                            <div className="text-sm font-medium whitespace-pre-wrap">{msg.content}</div>
+                            {msg.suggestedTasks && msg.suggestedTasks.length > 0 && (
+                              <div className="mt-3 pt-2.5 border-t border-amber-200 space-y-2">
+                                {msg.suggestedTasks.map((st, i) => (
+                                  <div key={i} className="bg-white border border-amber-200 rounded-2xl p-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <div className="text-xs font-extrabold text-slate-800">{st.title} ({st.estimatedMinutes}m)</div>
+                                    <button
+                                      onClick={() => {
+                                        const created = { id: 'task-' + Date.now() + '-' + i, title: st.title, titleEn: st.title, estimatedMinutes: st.estimatedMinutes || 30, assigneeRole: st.assigneeRole || 'kid', team: st.team || 'all_team', sprintWeek: st.sprintWeek || 2, status: 'todo' };
+                                        updateCurrentProject((prev) => ({ ...prev, tasks: [created, ...prev.tasks] }));
+                                        showToast('✨ Added task card to Kanban Board!');
+                                      }}
+                                      className="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-extrabold px-3 py-2 rounded-xl cursor-pointer shrink-0"
+                                    >
+                                      + Add Task Card to Board
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Quick Topic Chips */}
+                    <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pt-2 border-t border-slate-100">
+                      {[
+                        '[Team A] Calculate Landed Cost for 30 jars from the UK & set retail price',
+                        '[Team B] Shift Marmite from a dare food to an Umami Secret Weapon',
+                        '[Team B] Plan Warm Toast + Salted Butter + Paper-thin Marmite tasting & ZINE'
+                      ].map((q, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => handleSendChat(q)}
+                          className="shrink-0 bg-sky-50 hover:bg-sky-100 border border-sky-200 text-sky-950 text-xs font-extrabold px-3 py-1.5 rounded-full cursor-pointer"
+                        >
+                          💡 {q}
+                        </button>
+                      ))}
+                    </div>
+
+                    <form
+                      onSubmit={(e) => { e.preventDefault(); handleSendChat(chatInput); }}
+                      className="flex gap-2"
+                    >
+                      <input
+                        type="text"
+                        value={chatInput}
+                        onChange={(e) => setChatInput(e.target.value)}
+                        placeholder="Ask about Landed Cost, Recipe ZINEs, or Tasting..."
+                        className="flex-1 border-2 border-slate-300 rounded-2xl px-3.5 py-2.5 text-sm font-bold"
+                      />
+                      <button type="submit" className="bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs sm:text-sm px-5 py-2.5 rounded-2xl cursor-pointer">
+                        Send
+                      </button>
+                    </form>
+                  </div>
+                )}
+
+                {/* TAB 3: BUDGET & LANDED COST SIMULATOR */}
+                {activeTab === 'budget' && (
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                      <div className="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4">
+                        <div className="text-xs font-extrabold text-sky-900">① Expected Revenue</div>
+                        <div className="text-xl sm:text-2xl font-black text-slate-900 mt-1">¥{expectedRevenue.toLocaleString()}</div>
+                        <div className="text-[11px] font-bold text-sky-800">¥{currentProject.budget.unitPrice.toLocaleString()} × {currentProject.budget.targetQuantity} units</div>
+                      </div>
+                      <div className="bg-indigo-50 border-2 border-indigo-200 rounded-2xl p-4">
+                        <div className="text-xs font-extrabold text-indigo-900">② All-in Cost / Unit</div>
+                        <div className="text-xl sm:text-2xl font-black text-slate-900 mt-1">
+                          ¥{currentProject.budget.targetQuantity > 0 ? Math.round(totalExpenses / currentProject.budget.targetQuantity).toLocaleString() : 0}
+                        </div>
+                        <div className="text-[11px] font-bold text-indigo-800">Landed + Booth Cost</div>
+                      </div>
+                      <div className="bg-rose-50 border-2 border-rose-200 rounded-2xl p-4">
+                        <div className="text-xs font-extrabold text-rose-900">③ Total Expenses</div>
+                        <div className="text-xl sm:text-2xl font-black text-slate-900 mt-1">¥{totalExpenses.toLocaleString()}</div>
+                        <div className="text-[11px] font-bold text-rose-800">Break-even: {currentProject.budget.unitPrice > 0 ? Math.ceil(totalExpenses / currentProject.budget.unitPrice) : 0} units</div>
+                      </div>
+                      <div className="bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-4">
+                        <div className="text-xs font-extrabold text-emerald-900">④ Net Profit / Charity</div>
+                        <div className="text-xl sm:text-2xl font-black text-emerald-700 mt-1">¥{netProfit.toLocaleString()}</div>
+                        <div className="text-[11px] font-bold text-emerald-800">{achievementPct}% of ¥{currentProject.budget.targetProfit.toLocaleString()} Goal</div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                      <div className="bg-white border-2 border-slate-200 rounded-3xl p-5 space-y-4">
+                        <h3 className="font-extrabold text-base text-slate-800">🎛️ Price, Batch Size & Goal Sliders</h3>
+                        <div>
+                          <div className="flex justify-between text-xs font-extrabold mb-1">
+                            <span>🎯 Target Profit / Charity Goal</span>
+                            <span>¥{currentProject.budget.targetProfit.toLocaleString()}</span>
+                          </div>
+                          <input
+                            type="range" min="0" max="30000" step="500"
+                            value={currentProject.budget.targetProfit}
+                            onChange={(e) => updateCurrentProject((p) => ({ ...p, budget: { ...p.budget, targetProfit: Number(e.target.value) } }))}
+                            className="w-full accent-emerald-600"
+                          />
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-xs font-extrabold mb-1">
+                            <span>🏷️ Retail Price per Unit (incl. ZINE)</span>
+                            <span>¥{currentProject.budget.unitPrice.toLocaleString()}</span>
+                          </div>
+                          <input
+                            type="range" min="200" max="2500" step="50"
+                            value={currentProject.budget.unitPrice}
+                            onChange={(e) => updateCurrentProject((p) => ({ ...p, budget: { ...p.budget, unitPrice: Number(e.target.value) } }))}
+                            className="w-full accent-sky-600"
+                          />
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-xs font-extrabold mb-1">
+                            <span>📦 Small-Batch Quantity (Zero-Risk Cap: 30)</span>
+                            <span>{currentProject.budget.targetQuantity} units</span>
+                          </div>
+                          <input
+                            type="range" min="5" max="60" step="1"
+                            value={currentProject.budget.targetQuantity}
+                            onChange={(e) => updateCurrentProject((p) => ({ ...p, budget: { ...p.budget, targetQuantity: Number(e.target.value) } }))}
+                            className="w-full accent-amber-500"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="bg-white border-2 border-rose-200 rounded-3xl p-5 space-y-3">
+                        <h3 className="font-extrabold text-base text-slate-800">🧾 Landed Costs & Marketing Expenses</h3>
+                        <div className="space-y-2">
+                          {currentProject.budget.expenses.map((exp) => (
+                            <div key={exp.id} className="flex items-center justify-between gap-2 bg-rose-50/60 border border-rose-200 rounded-xl p-2 text-xs font-bold">
+                              <span className="truncate flex-1">{exp.name}</span>
+                              <span className="font-extrabold text-rose-900">¥{Number(exp.amount).toLocaleString()}</span>
+                              <button
+                                onClick={() => updateCurrentProject((p) => ({ ...p, budget: { ...p.budget, expenses: p.budget.expenses.filter((x) => x.id !== exp.id) } }))}
+                                className="text-slate-400 hover:text-rose-600 px-1 cursor-pointer"
+                              >
+                                🗑️
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                        <form
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            if (!newExpName.trim()) return;
+                            const item = { id: 'exp-' + Date.now(), name: newExpName.trim(), category: newExpCategory, amount: Number(newExpAmount) || 0 };
+                            updateCurrentProject((p) => ({ ...p, budget: { ...p.budget, expenses: [...p.budget.expenses, item] } }));
+                            setNewExpName('');
+                            setNewExpAmount('');
+                          }}
+                          className="flex gap-2 pt-2"
+                        >
+                          <input
+                            type="text" value={newExpName} onChange={(e) => setNewExpName(e.target.value)}
+                            placeholder="Expense name..." className="flex-1 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-bold"
+                          />
+                          <input
+                            type="number" value={newExpAmount} onChange={(e) => setNewExpAmount(e.target.value)}
+                            placeholder="JPY" className="w-24 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-bold"
+                          />
+                          <button type="submit" className="bg-rose-500 text-white text-xs font-extrabold px-3 py-1.5 rounded-xl cursor-pointer">+ Add</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* TAB 4: PROPOSAL & PRINTABLE A4 WORKSHEET + SCANNER */}
+                {activeTab === 'proposal' && (
+                  <div className="space-y-5">
+                    <div className="bg-white border-2 border-sky-300 rounded-3xl p-5 space-y-3 no-print">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div>
+                          <h3 className="text-base font-extrabold text-slate-900">📸 After-School Worksheet Scanner & Print</h3>
+                          <p className="text-xs text-slate-600 font-semibold">Print the A4 sheet below for school meetings, then enter or scan your handwritten notes to auto-update the board!</p>
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => {
+                              const sample = 'Finished landed cost calculation (¥1,200/jar) and drafted bilingual tasting cards! Need to ask Teacher about toaster permission.';
+                              setScanNotes(sample);
+                              setScanResult({
+                                summary: `Scanned school notes: "${sample}"`,
+                                advice: '💡 Proactive Mentor Tip: Ask your Homeroom Teacher about electrical outlet safety for the toaster and confirm allergen labels with a Parent Mentor!'
+                              });
+                            }}
+                            className="bg-sky-100 text-sky-950 border border-sky-300 text-xs font-extrabold px-3 py-2 rounded-xl cursor-pointer"
+                          >
+                            ✨ Try Sample Scan
+                          </button>
+                          <button
+                            onClick={() => window.print()}
+                            className="bg-slate-900 text-white text-xs font-extrabold px-4 py-2 rounded-xl cursor-pointer"
+                          >
+                            🖨️ Print A4 Sheet
+                          </button>
+                        </div>
+                      </div>
+
+                      {scanResult && (
+                        <div className="bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-3.5 space-y-2 text-xs">
+                          <div className="font-extrabold text-emerald-950">✅ {scanResult.summary}</div>
+                          <div className="text-rose-900 font-bold bg-rose-50 border border-rose-200 rounded-xl p-2">{scanResult.advice}</div>
+                          <button
+                            onClick={() => {
+                              const added = {
+                                id: 'scan-' + Date.now(),
+                                title: 'Confirm electric toaster permission with Homeroom Teacher (from Scanned Worksheet)',
+                                titleEn: 'Confirm electric toaster permission with Homeroom Teacher (from Scanned Worksheet)',
+                                estimatedMinutes: 20,
+                                assigneeRole: 'adult',
+                                team: 'team_b',
+                                sprintWeek: 3,
+                                status: 'review'
+                              };
+                              updateCurrentProject((prev) => ({
+                                ...prev,
+                                tasks: [added, ...prev.tasks.map((t, idx) => (idx === 2 ? { ...t, status: 'done' } : t))]
+                              }));
+                              setScanResult(null);
+                              showToast('📸 Applied worksheet scan updates to Kanban Board!');
+                            }}
+                            className="bg-emerald-600 text-white font-extrabold px-4 py-2 rounded-xl cursor-pointer"
+                          >
+                            Apply Scan Updates to Board →
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Printable A4 Sheet */}
+                    <div className="bg-white border-2 border-slate-800 rounded-3xl p-6 space-y-5 print:border-0 print:p-0">
+                      <div className="border-b-4 border-slate-900 pb-3 flex justify-between items-start">
+                        <div>
+                          <div className="text-xs font-extrabold uppercase text-amber-700">PBL Project Proposal & Field Worksheet — {currentProject.eventName}</div>
+                          <h2 className="text-xl font-black text-slate-900">{currentProject.projectName}</h2>
+                          <p className="text-xs font-bold text-slate-600">Target Audience: {currentProject.targetAudience}</p>
+                        </div>
+                        <div className="border-2 border-slate-900 rounded-xl px-3 py-1.5 text-center bg-amber-50">
+                          <div className="text-[10px] font-extrabold">BATCH CAP</div>
+                          <div className="text-base font-black">{currentProject.budget.targetQuantity} UNITS</div>
+                        </div>
+                      </div>
+
+                      <table className="w-full border-collapse border-2 border-slate-800 text-xs">
+                        <thead>
+                          <tr className="bg-slate-100">
+                            <th className="border border-slate-800 p-2 text-left">Week / Team</th>
+                            <th className="border border-slate-800 p-2 text-left">Action Item / Task</th>
+                            <th className="border border-slate-800 p-2 text-left">Owner</th>
+                            <th className="border border-slate-800 p-2 text-left">Status Check</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {currentProject.tasks.map((tk) => (
+                            <tr key={tk.id}>
+                              <td className="border border-slate-800 p-2 font-bold">W{tk.sprintWeek || 1} / {tk.team === 'team_a' ? 'Team A' : tk.team === 'team_b' ? 'Team B' : 'All'}</td>
+                              <td className="border border-slate-800 p-2 font-bold">{tk.titleEn || tk.title}</td>
+                              <td className="border border-slate-800 p-2">{tk.assigneeRole === 'kid' ? 'Student Lead' : 'Parent Mentor'} ({tk.estimatedMinutes}m)</td>
+                              <td className="border border-slate-800 p-2 font-bold">
+                                [ {tk.status === 'done' ? '✓' : ' '} ] Done &nbsp; [ {tk.status === 'doing' ? '✓' : ' '} ] Doing
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+
+                      <div className="border-2 border-slate-800 rounded-xl p-3 text-xs">
+                        <div className="font-extrabold mb-1">📝 School Meeting & Live Tasting Booth Handwritten Notes</div>
+                        <div className="h-14 border-b border-dashed border-slate-400"></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+
+          {/* Mobile & Tablet Fixed Bottom Navigation Bar */}
+          <nav className="fixed lg:hidden bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t-2 border-slate-200 px-2 pt-1.5 pb-safe-bottom shadow-lg no-print">
+            <div className="max-w-lg mx-auto grid grid-cols-5 gap-1">
+              {[
+                { id: 'kanban', icon: '📋', label: 'Board' },
+                { id: 'ai-chat', icon: '🤖', label: 'AI Chat' },
+                { id: 'budget', icon: '🧮', label: 'Cost & P&L' },
+                { id: 'proposal', icon: '📄', label: 'Proposal' }
+              ].map((nav) => (
+                <button
+                  key={nav.id}
+                  onClick={() => {
+                    if (isHubSlide && activeProjects.length > 0) setCurrentSlideIndex(0);
+                    setActiveTab(nav.id);
+                  }}
+                  className={`flex flex-col items-center justify-center py-1.5 rounded-2xl font-extrabold text-[11px] cursor-pointer ${
+                    !isHubSlide && activeTab === nav.id ? 'bg-sky-500 text-white' : 'text-slate-600'
+                  }`}
+                >
+                  <span>{nav.icon}</span>
+                  <span>{nav.label}</span>
+                </button>
+              ))}
+              <button
+                onClick={() => setCurrentSlideIndex(activeProjects.length)}
+                className={`flex flex-col items-center justify-center py-1.5 rounded-2xl font-extrabold text-[11px] cursor-pointer ${
+                  isHubSlide ? 'bg-indigo-600 text-white' : 'text-indigo-700 bg-indigo-50'
+                }`}
+              >
+                <span>🗂️+</span>
+                <span>All / +New</span>
+              </button>
+            </div>
+          </nav>
+
+          {/* Add / Edit Task Modal */}
+          {isTaskModalOpen && (
+            <div className="fixed inset-0 z-50 bg-slate-900/50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+              <div className="bg-white rounded-t-3xl sm:rounded-3xl max-w-lg w-full p-5 shadow-xl space-y-4">
+                <div className="flex justify-between items-center border-b pb-2">
+                  <h3 className="font-extrabold text-base">{editingTaskId ? '✏️ Edit Sprint Task' : '＋ Add New Sprint Task'}</h3>
+                  <button onClick={() => setIsTaskModalOpen(false)} className="text-slate-500 font-bold px-2">✕</button>
+                </div>
+                <form onSubmit={handleSaveTask} className="space-y-3">
+                  <input
+                    type="text" required value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)}
+                    placeholder="Task title..." className="w-full border-2 border-slate-300 rounded-xl px-3 py-2.5 text-sm font-bold"
+                  />
+                  <div className="grid grid-cols-2 gap-2">
+                    <button type="button" onClick={() => setTaskRole('kid')} className={`py-2 rounded-xl border-2 text-xs font-extrabold ${taskRole === 'kid' ? 'bg-sky-100 border-sky-500 text-sky-900' : 'bg-slate-50 border-slate-200'}`}>🙋 Student Lead</button>
+                    <button type="button" onClick={() => setTaskRole('adult')} className={`py-2 rounded-xl border-2 text-xs font-extrabold ${taskRole === 'adult' ? 'bg-rose-100 border-rose-500 text-rose-900' : 'bg-slate-50 border-slate-200'}`}>🤝 Parent Mentor</button>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <select value={taskTeam} onChange={(e) => setTaskTeam(e.target.value)} className="border-2 border-slate-300 rounded-xl px-2.5 py-2 text-xs font-bold">
+                      <option value="team_a">📦 Team A: Import</option>
+                      <option value="team_b">🎨 Team B: Marketing</option>
+                      <option value="all_team">🤝 All Teams</option>
+                    </select>
+                    <select value={taskWeek} onChange={(e) => setTaskWeek(Number(e.target.value))} className="border-2 border-slate-300 rounded-xl px-2.5 py-2 text-xs font-bold">
+                      <option value={1}>Week 1</option>
+                      <option value={2}>Week 2</option>
+                      <option value={3}>Week 3</option>
+                      <option value={4}>Week 4</option>
+                    </select>
+                  </div>
+                  <input
+                    type="text" value={taskNote} onChange={(e) => setTaskNote(e.target.value)}
+                    placeholder="Notes / Parent or Teacher advice (optional)" className="w-full border-2 border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold"
+                  />
+                  <div className="flex justify-end gap-2 pt-2">
+                    <button type="button" onClick={() => setIsTaskModalOpen(false)} className="px-4 py-2 rounded-xl border border-slate-300 text-xs font-extrabold">Cancel</button>
+                    <button type="submit" className="px-5 py-2 rounded-xl bg-sky-500 text-white text-xs font-extrabold">Save Task</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* AI New Project Modal */}
+          {isNewProjectModalOpen && (
+            <div className="fixed inset-0 z-50 bg-slate-900/60 flex items-end sm:items-center justify-center p-0 sm:p-4">
+              <div className="bg-white rounded-t-3xl sm:rounded-3xl max-w-xl w-full p-5 shadow-2xl space-y-4">
+                <div className="flex justify-between items-center border-b pb-2">
+                  <h3 className="font-black text-base sm:text-lg">✨ Launch New Project with AI Architect</h3>
+                  <button onClick={() => setIsNewProjectModalOpen(false)} className="text-slate-500 font-bold px-2">✕</button>
+                </div>
+                <div className="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-xl">
+                  <button type="button" onClick={() => setNewProjMode('interview')} className={`py-2 rounded-lg text-xs font-extrabold ${newProjMode === 'interview' ? 'bg-white shadow-xs' : 'text-slate-600'}`}>🤖 AI Requirement Interview</button>
+                  <button type="button" onClick={() => setNewProjMode('proposal')} className={`py-2 rounded-lg text-xs font-extrabold ${newProjMode === 'proposal' ? 'bg-white shadow-xs' : 'text-slate-600'}`}>📄 Import Project Proposal</button>
+                </div>
+                <form onSubmit={handleCreateProjectWithAi} className="space-y-3">
+                  {newProjMode === 'interview' ? (
+                    <>
+                      <input type="text" required value={ideaInput} onChange={(e) => setIdeaInput(e.target.value)} placeholder="Q1. What project or event do you want to launch? *" className="w-full border-2 border-amber-300 rounded-xl px-3 py-2.5 text-xs sm:text-sm font-bold" />
+                      <input type="text" value={audienceInput} onChange={(e) => setAudienceInput(e.target.value)} placeholder="Q2. Event name & target audience (e.g., School Fair)" className="w-full border-2 border-sky-300 rounded-xl px-3 py-2.5 text-xs sm:text-sm font-bold" />
+                      <input type="text" value={supportInput} onChange={(e) => setSupportInput(e.target.value)} placeholder="Q3. What should parents or teachers help with?" className="w-full border-2 border-rose-300 rounded-xl px-3 py-2.5 text-xs sm:text-sm font-bold" />
+                    </>
+                  ) : (
+                    <textarea rows={5} required value={proposalInput} onChange={(e) => setProposalInput(e.target.value)} placeholder="Paste your full Project Proposal document or meeting notes here..." className="w-full border-2 border-slate-300 rounded-xl p-3 text-xs sm:text-sm font-semibold"></textarea>
+                  )}
+                  <div className="flex justify-end gap-2 pt-2">
+                    <button type="button" onClick={() => setIsNewProjectModalOpen(false)} className="px-4 py-2 rounded-xl border border-slate-300 text-xs font-extrabold">Cancel</button>
+                    <button type="submit" className="px-5 py-2.5 rounded-xl bg-amber-500 text-white text-xs font-extrabold cursor-pointer">✨ Build Project with AI →</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {toastMessage && (
+            <div className="fixed bottom-20 lg:bottom-5 right-4 z-50 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-lg text-xs font-extrabold border-2 border-amber-400">
+              {toastMessage}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
